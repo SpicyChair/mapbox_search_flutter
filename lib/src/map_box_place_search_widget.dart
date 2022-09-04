@@ -12,6 +12,8 @@ class MapBoxPlaceSearchWidget extends StatefulWidget {
     this.popOnSelect = false,
     this.location,
     this.country,
+    this.backgroundColor,
+    this.textColor,
   });
 
   /// True if there is different search screen and you want to pop screen on select
@@ -39,6 +41,10 @@ class MapBoxPlaceSearchWidget extends StatefulWidget {
   ///
   /// Check the full list of [supported countries](https://docs.mapbox.com/api/search/) for the MapBox API
   final String country;
+
+  final Color backgroundColor;
+
+  final Color textColor;
 
   ///Search Hint Localization
   final String searchHint;
@@ -156,9 +162,9 @@ class _MapBoxPlaceSearchWidgetState extends State<MapBoxPlaceSearchWidget>
               decoration: _inputStyle(),
               controller: _textEditingController,
               style: TextStyle(
-                fontSize:
-                    widget.fontSize ?? MediaQuery.of(context).size.width * 0.04,
-              ),
+                  fontSize: widget.fontSize ??
+                      MediaQuery.of(context).size.width * 0.04,
+                  color: widget.textColor ?? Colors.black),
               onChanged: (value) async {
                 _debounceTimer?.cancel();
                 _debounceTimer = Timer(
@@ -195,13 +201,17 @@ class _MapBoxPlaceSearchWidgetState extends State<MapBoxPlaceSearchWidget>
           place.length < 45
               ? "$place"
               : "${place.replaceRange(45, place.length, "")} ...",
-          style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04),
+          style: TextStyle(
+              fontSize: MediaQuery.of(context).size.width * 0.04,
+              color: widget.textColor ?? Colors.black),
           maxLines: 1,
         ),
         subtitle: Text(
           fullName,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.03),
+          style: TextStyle(
+              fontSize: MediaQuery.of(context).size.width * 0.03,
+              color: widget.textColor ?? Colors.black),
           maxLines: 1,
         ),
         contentPadding: EdgeInsets.symmetric(
@@ -223,8 +233,8 @@ class _MapBoxPlaceSearchWidgetState extends State<MapBoxPlaceSearchWidget>
 
   BoxDecoration _containerDecoration() {
     return BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.all(Radius.circular(6.0)),
+      color: widget.backgroundColor ?? Colors.white,
+      borderRadius: BorderRadius.all(Radius.circular(12.0)),
       boxShadow: [
         BoxShadow(color: Colors.black, blurRadius: 0, spreadRadius: 0)
       ],
